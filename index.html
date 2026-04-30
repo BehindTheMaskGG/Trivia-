@@ -2,22 +2,20 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trivia de Puertas</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<!-- INICIO -->
 <div id="inicio" class="pantalla activa">
   <h1>🎯 Trivia: Escoge la puerta</h1>
   <button onclick="iniciarJuego()">Jugar</button>
 </div>
 
-<!-- JUEGO -->
 <div id="juego" class="pantalla">
   <div id="ronda">Ronda 1</div>
-
   <h2>Elige una puerta 🚪</h2>
 
   <div class="contenedor">
@@ -27,7 +25,6 @@
   </div>
 </div>
 
-<!-- PREGUNTA / PREMIO -->
 <div id="preguntaBox" class="pantalla">
   <h2 id="texto"></h2>
 
@@ -38,13 +35,10 @@
 </div>
 
 <script>
-
-/* VARIABLES */
 let rondaActual = 1;
 let maxRondas = 5;
 let puertas = [];
 
-/* IMÁGENES */
 const imagenes = [
   "fotos/puerta1.png",
   "fotos/puerta2.png",
@@ -54,43 +48,38 @@ const imagenes = [
   "fotos/puerta6.png"
 ];
 
-/* PREGUNTAS */
 let preguntasOriginales = [
   "Menciona uno de los elementos de las REI",
   "¿Qué es el marco jurídico en las REI?",
   "¿Quiénes son los sujetos principales de las REI?",
   "¿Por qué el Estado es el único que puede establecer aranceles?",
   "Menciona una organización internacional",
-  "¿Cuál es la función de la Organización Mundial del Comercio?",
+  "¿Cuál es la función de la OMC?",
   "¿Qué son las empresas transnacionales?",
-  "¿Cómo influyen las empresas transnacionales en los Estados?",
-  "¿Qué son las Relaciones Económicas Internacionales?",
-  "¿Qué tipos de intercambios se realizan en las REI además de bienes?",
-  "¿Qué intercambian los países en las REI?",
-  "¿Cómo se llama el conjunto de reglas que regulan las REI?",
-  "¿Qué permite a las empresas transnacionales influir en los Estados?"
+  "¿Cómo influyen en los Estados?",
+  "¿Qué son las REI?",
+  "¿Qué intercambios existen?",
+  "¿Qué intercambian los países?",
+  "¿Qué regula las REI?",
+  "¿Qué permite influir a empresas?"
 ];
 
 let preguntas = [...preguntasOriginales];
 
-/* INICIAR */
-function iniciarJuego() {
-  cambiarPantalla("juego");
-  generarRonda();
-}
-
-/* CAMBIAR PANTALLA */
 function cambiarPantalla(id) {
   document.querySelectorAll(".pantalla").forEach(p => p.classList.remove("activa"));
   document.getElementById(id).classList.add("activa");
 }
 
-/* MEZCLAR */
+function iniciarJuego() {
+  cambiarPantalla("juego");
+  generarRonda();
+}
+
 function mezclar(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-/* ASIGNAR IMÁGENES */
 function asignarPuertas() {
   const puertasHTML = document.querySelectorAll(".puerta");
   const mezcla = mezclar([...imagenes]);
@@ -100,7 +89,6 @@ function asignarPuertas() {
   });
 }
 
-/* GENERAR RONDA */
 function generarRonda() {
   document.getElementById("ronda").innerText = "Ronda " + rondaActual;
 
@@ -113,22 +101,18 @@ function generarRonda() {
   }
 
   puertas.sort(() => Math.random() - 0.5);
-
   asignarPuertas();
 }
 
-/* PREGUNTA */
 function obtenerPregunta() {
   if (preguntas.length === 0) return "No hay más preguntas";
 
   let i = Math.floor(Math.random() * preguntas.length);
   let p = preguntas[i];
   preguntas.splice(i, 1);
-
   return p;
 }
 
-/* ELEGIR */
 function elegirPuerta(index) {
   cambiarPantalla("preguntaBox");
 
@@ -139,16 +123,13 @@ function elegirPuerta(index) {
   }
 }
 
-/* SIGUIENTE */
 function siguiente() {
   rondaActual++;
 
   if (rondaActual > maxRondas) {
     document.getElementById("texto").innerText = "🏁 Juego terminado";
-
     document.getElementById("btnSiguiente").style.display = "none";
     document.getElementById("btnReiniciar").style.display = "inline-block";
-
     return;
   }
 
@@ -156,7 +137,6 @@ function siguiente() {
   generarRonda();
 }
 
-/* REINICIAR */
 function reiniciarJuego() {
   rondaActual = 1;
   preguntas = [...preguntasOriginales];
@@ -167,7 +147,6 @@ function reiniciarJuego() {
   cambiarPantalla("juego");
   generarRonda();
 }
-
 </script>
 
 </body>
