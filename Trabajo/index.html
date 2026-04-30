@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Trivia de Puertas</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<!-- INICIO -->
+<div id="inicio" class="pantalla activa">
+  <h1>🎯 Trivia: Escoge la puerta</h1>
+  <button onclick="iniciarJuego()">Jugar</button>
+</div>
+
+<!-- JUEGO -->
+<div id="juego" class="pantalla">
+  <div id="ronda">Ronda 1</div>
+
+  <h2>Elige una puerta 🚪</h2>
+
+  <div class="contenedor">
+    <div class="puerta" onclick="elegirPuerta(0)"></div>
+    <div class="puerta" onclick="elegirPuerta(1)"></div>
+    <div class="puerta" onclick="elegirPuerta(2)"></div>
+  </div>
+</div>
+
+<!-- PREGUNTA / PREMIO -->
+<div id="preguntaBox" class="pantalla">
+  <h2 id="texto"></h2>
+
+  <button id="btnSiguiente" onclick="siguiente()">Siguiente</button>
+  <button id="btnReiniciar" onclick="reiniciarJuego()" style="display:none;">
+    🔄 Jugar de nuevo
+  </button>
+</div>
+
+<script>
+
+/* VARIABLES */
+let rondaActual = 1;
+let maxRondas = 5;
+let puertas = [];
+
+/* IMÁGENES */
+const imagenes = [
+  "fotos/puerta1.png",
+  "fotos/puerta2.png",
+  "fotos/puerta3.png",
+  "fotos/puerta4.png",
+  "fotos/puerta5.png",
+  "fotos/puerta6.png"
+];
+
+/* PREGUNTAS */
+let preguntasOriginales = [
+  "Menciona uno de los elementos de las REI",
+  "¿Qué es el marco jurídico en las REI?",
+  "¿Quiénes son los sujetos principales de las REI?",
+  "¿Por qué el Estado es el único que puede establecer aranceles?",
+  "Menciona una organización internacional",
+  "¿Cuál es la función de la Organización Mundial del Comercio?",
+  "¿Qué son las empresas transnacionales?",
+  "¿Cómo influyen las empresas transnacionales en los Estados?",
+  "¿Qué son las Relaciones Económicas Internacionales?",
+  "¿Qué tipos de intercambios se realizan en las REI además de bienes?",
+  "¿Qué intercambian los países en las REI?",
+  "¿Cómo se llama el conjunto de reglas que regulan las REI?",
+  "¿Qué permite a las empresas transnacionales influir en los Estados?"
+];
+
+let preguntas = [...preguntasOriginales];
+
+/* INICIAR */
+function iniciarJuego() {
+  cambiarPantalla("juego");
+  generarRonda();
+}
+
+/* CAMBIAR PANTALLA */
+function cambiarPantalla(id) {
+  document.querySelectorAll(".pantalla").forEach(p => p.classList.remove("activa"));
+  document.getElementById(id).classList.add("activa");
+}
+
+/* MEZCLAR */
+function mezclar(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+/* ASIGNAR IMÁGENES */
+function asignarPuertas() {
+  const puertasHTML = document.querySelectorAll(".puerta");
+  const mezcla = mezclar([...imagenes]);
+
+  puertasHTML.forEach((puerta, i) => {
+    puerta.style.backgroundImage = `url(${mezcla[i]})`;
+  });
+}
+
+/* GENERAR RONDA */
+function generarRonda() {
+  document.getElementById("ronda").innerText = "Ronda " + rondaActual;
+
+  let rondasConPremio = [2, 5];
+
+  if (rondasConPremio.includes(rondaActual)) {
+    puertas = ["premio", "pregunta", "pregunta"];
+  } else {
+    puertas = ["pregunta", "pregunta", "pregunta"];
+  }
+
+  puertas.sort(() => Math.random() - 0.5);
+
+  asignarPuertas();
+}
+
+/* PREGUNTA */
+function obtenerPregunta() {
+  if (preguntas.length === 0) return "No hay más preguntas";
+
+  let i = Math.floor(Math.random() * preguntas.length);
+  let p = preguntas[i];
+  preguntas.splice(i, 1);
+
+  return p;
+}
+
+/* ELEGIR */
+function elegirPuerta(index) {
+  cambiarPantalla("preguntaBox");
+
+  if (puertas[index] === "premio") {
+    document.getElementById("texto").innerText = "🎉 ¡Ganaste un premio!";
+  } else {
+    document.getElementById("texto").innerText = obtenerPregunta();
+  }
+}
+
+/* SIGUIENTE */
+function siguiente() {
+  rondaActual++;
+
+  if (rondaActual > maxRondas) {
+    document.getElementById("texto").innerText = "🏁 Juego terminado";
+
+    document.getElementById("btnSiguiente").style.display = "none";
+    document.getElementById("btnReiniciar").style.display = "inline-block";
+
+    return;
+  }
+
+  cambiarPantalla("juego");
+  generarRonda();
+}
+
+/* REINICIAR */
+function reiniciarJuego() {
+  rondaActual = 1;
+  preguntas = [...preguntasOriginales];
+
+  document.getElementById("btnSiguiente").style.display = "inline-block";
+  document.getElementById("btnReiniciar").style.display = "none";
+
+  cambiarPantalla("juego");
+  generarRonda();
+}
+
+</script>
+
+</body>
+</html>
