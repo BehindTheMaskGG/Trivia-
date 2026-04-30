@@ -18,37 +18,34 @@ body {
   height: 100vh;
 }
 
-/* INICIO */
+/* IMPORTANTE: usa nombres EXACTOS de archivos */
 #inicio {
   background:
     linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-    url("fotos/fondo.jpeg");
+    url("./fotos/fondo.jpeg");
 
   background-size: cover;
   background-position: center;
 }
 
-/* JUEGO */
 #juego {
   background:
     linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-    url("fotos/fondo1.jpeg");
+    url("./fotos/fondo1.jpeg");
 
   background-size: cover;
   background-position: center;
 }
 
-/* PREGUNTA */
 #preguntaBox {
   background:
     linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-    url("fotos/fondo1.jpeg");
+    url("./fotos/fondo1.jpeg");
 
   background-size: cover;
   background-position: center;
 }
 
-/* Botones */
 button {
   padding: 12px 25px;
   font-size: 20px;
@@ -57,23 +54,8 @@ button {
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  margin-top: 10px;
-  transition: 0.3s;
 }
 
-button:hover {
-  background: #e68900;
-  transform: scale(1.05);
-}
-
-/* Ronda */
-#ronda {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-}
-
-/* Puertas */
 .contenedor {
   display: flex;
   gap: 30px;
@@ -84,11 +66,4 @@ button:hover {
   height: 243px;
   background-size: cover;
   background-position: center;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.puerta:hover {
-  transform: scale(1.1);
 }
